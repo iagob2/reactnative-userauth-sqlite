@@ -1,41 +1,40 @@
-# React Native - Gerenciador de Usuários
+# React Native - Sistema de Autenticação com SQLite
 
-Aplicativo desenvolvido em React Native com Expo e SQLite para gerenciamento de usuários com sistema de login e cadastro.
+Aplicativo desenvolvido em React Native com Expo e SQLite para gerenciamento de usuários com sistema de autenticação.
 
 ## Funcionalidades
 
 - **Sistema de Login**: Autenticação com email e senha
-- **Cadastro de Usuários**: Registro de novos usuários com validações
-- **Criptografia de Senhas**: Senhas são criptografadas usando SHA-256
+- **Cadastro de Usuários**: Registro de novos usuários
 - **Lista de Usuários**: Visualização de todos os usuários cadastrados
 - **Edição de Usuários**: Atualização de dados dos usuários
-- **Exclusão de Usuários**: Remoção de usuários com confirmação
+- **Exclusão de Usuários**: Remoção de usuários
 - **Interface Moderna**: Design responsivo e intuitivo
 
 ## Tecnologias Utilizadas
 
 - React Native (Expo)
+- TypeScript
 - SQLite (expo-sqlite)
+- Expo Router
+- AsyncStorage
 - React Navigation
-- Expo Crypto (para criptografia)
-- JavaScript ES6+
 
 ## Estrutura do Projeto
 
 ```
-├── App.js                      # Componente principal com navegação
-├── src/
-│   ├── telas/
-│   │   ├── Login.js      # Tela de login
-│   │   ├── Cadastro.js   # Tela de cadastro
-│   │   └── Index.js      # Tela de lista de usuários
-│   ├── database/
-│   │   └── Database.js         # Configuração e operações do SQLite
-│   └── utils/
-│       └── Crypto.js           # Utilitários de criptografia
-├── package.json
-├── babel.config.js
-└── app.json
+appSQLite/
+├── app/                    # Páginas da aplicação (Expo Router)
+│   ├── login.tsx          # Tela de login
+│   ├── index.tsx          # Tela inicial -casdrato
+│   └── mostrarUsuario.tsx # Tela de listagem de usuários
+├── banco/                 # Configuração e operações do SQLite
+│   └── crud.tsx          # Operações CRUD
+├── style/                 # Estilos e temas
+│   └── theme.ts          # Configuração de estilos globais
+├── utils/                 # Utilitários
+├── package.json          # Dependências do projeto
+└── tsconfig.json         # Configuração do TypeScript
 ```
 
 ## Instalação e Execução
@@ -45,11 +44,15 @@ Aplicativo desenvolvido em React Native com Expo e SQLite para gerenciamento de 
 - Node.js (versão 16 ou superior)
 - npm ou yarn
 - Expo CLI (`npm install -g @expo/cli`)
-- Emulador Android/iOS ou dispositivo físico com Expo Go
+- Dispositivo móvel com Expo Go instalado
 
 ### Passos para Instalação
 
-1. **Clone o projeto ou extraia os arquivos**
+1. **Clone o projeto:**
+   ```bash
+   git clone [URL_DO_REPOSITÓRIO]
+   cd appSQLite
+   ```
 
 2. **Instale as dependências:**
    ```bash
@@ -62,78 +65,74 @@ Aplicativo desenvolvido em React Native com Expo e SQLite para gerenciamento de 
    ```
 
 4. **Execute no dispositivo:**
-   - **Android**: Pressione 'a' no terminal ou escaneie o QR code com o Expo Go
-   - **iOS**: Pressione 'i' no terminal ou escaneie o QR code com a câmera
-   - **Web**: Pressione 'w' no terminal
+   - Escaneie o QR code com o aplicativo Expo Go (Android)
+   - Escaneie o QR code com a câmera (iOS)
 
 ## Como Usar
 
 ### 1. Tela de Login
-- Digite o email e senha de um usuário já cadastrado
-- Clique em "Entrar" para acessar a lista de usuários
-- Use o link "Cadastre-se aqui" para criar uma nova conta
+- Digite o email e senha
+- Clique em "Entrar" para acessar
+- Use "Não tem uma conta? Cadastre-se" para criar nova conta
 
 ### 2. Tela de Cadastro
-- Preencha todos os campos obrigatórios (nome, email, senha)
-- A senha deve ter pelo menos 6 caracteres
-- Confirme a senha corretamente
+- Preencha nome, email e senha
 - Clique em "Cadastrar" para criar a conta
 
 ### 3. Tela de Lista de Usuários
 - Visualize todos os usuários cadastrados
-- Use "Editar" para modificar os dados de um usuário
-- Use "Excluir" para remover um usuário (com confirmação)
-- Puxe para baixo para atualizar a lista
-
-## Recursos de Segurança
-
-- **Criptografia SHA-256**: Todas as senhas são criptografadas antes de serem salvas
-- **Validação de Email**: Verificação de formato válido de email
-- **Validação de Senha**: Senha mínima de 6 caracteres
-- **Confirmação de Exclusão**: Popup de confirmação antes de excluir usuários
+- Opções para editar e excluir usuários
 
 ## Banco de Dados
 
-O aplicativo utiliza SQLite local com a seguinte estrutura de tabela:
+O aplicativo utiliza SQLite local com a seguinte estrutura:
 
 ```sql
-CREATE TABLE usuarios (
+CREATE TABLE usuario (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   nome TEXT NOT NULL,
-  email TEXT UNIQUE NOT NULL,
-  senha TEXT NOT NULL,
-  telefone TEXT,
-  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+  email TEXT NOT NULL,
+  senha TEXT NOT NULL
 );
 ```
 
-## Desenvolvido por
+## Desenvolvimento
 
-**[Nome da Dupla]**
-- Desenvolvedor 1: [Nome]
-- Desenvolvedor 2: [Nome]
+### Tecnologias Principais
+- **Frontend**: React Native com Expo
+- **Banco de Dados**: SQLite
+- **Navegação**: Expo Router
+- **Armazenamento**: AsyncStorage
+- **Linguagem**: TypeScript
 
----
-
-## Notas Técnicas
-
-- O banco de dados é criado automaticamente na primeira execução
-- Os dados ficam armazenados localmente no dispositivo
-- Para resetar os dados, desinstale e reinstale o aplicativo
-- O aplicativo funciona offline após a instalação
+### Estrutura de Arquivos
+- `/app`: Contém as páginas da aplicação usando Expo Router
+- `/banco`: Contém as operações de banco de dados
+- `/style`: Contém os estilos e temas da aplicação
+- `/utils`: Contém utilitários e funções auxiliares
 
 ## Troubleshooting
 
 ### Problemas Comuns
 
-1. **Erro de dependências**: Execute `npm install` novamente
-2. **Erro no SQLite**: Verifique se o expo-sqlite está instalado corretamente
-3. **Erro de navegação**: Certifique-se de que react-navigation está configurado
-4. **Problemas de build**: Limpe o cache do Expo com `npx expo start -c`
+1. **Erro de dependências**: 
+   ```bash
+   npm cache clean --force
+   rm -rf node_modules
+   npm install
+   ```
 
-### Logs Úteis
+2. **Erro no SQLite**: 
+   - Verifique se o expo-sqlite está instalado
+   - Limpe o cache do Expo: `npx expo start -c`
 
-O aplicativo gera logs no console para depuração:
-- Operações de banco de dados
-- Erros de login/cadastro
-- Navegação entre telas
+3. **Erro de TypeScript**:
+   - Verifique se todas as dependências estão instaladas
+   - Execute `npx tsc --noEmit` para verificar erros
+
+## Notas Técnicas
+
+- O banco de dados é criado automaticamente na primeira execução
+- Os dados são armazenados localmente no dispositivo
+- O aplicativo funciona offline após a instalação
+- Utiliza TypeScript para maior segurança e manutenibilidade
